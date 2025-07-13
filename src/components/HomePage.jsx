@@ -15,6 +15,18 @@ const HomePage = () => {
 
         setData(oldJson)
     }
+
+    const handleComplete = (index) => {
+        console.log("handleComplete", index);
+        data[index].status = "completed"
+        localStorage.setItem("todo", JSON.stringify(data))
+        getTasks()
+    }
+    const handleDelete = (index) => {
+        data.splice(index, 1)
+        localStorage.setItem("todo", JSON.stringify(data))
+        getTasks()
+    }
     useEffect(() => {
         getTasks()
     }, [])
@@ -38,13 +50,24 @@ const HomePage = () => {
 
         <Collapse
             collapsible="header"
-            items={data.map((res,index) => ({
+            items={data.map((res, index) => ({
                 key: index,
                 label: res.title,
                 children: res.description,
                 extra: <Flex gap={"small"}>
-                    <Button type="primary" size="small">Make Complete</Button>
-                    <Button size="small" danger icon={<DeleteOutlined />}></Button>
+                    {res.status == "pending" ?
+                        <Button
+                            type="primary"
+                            size="small"
+                            onClick={() => handleComplete(index)}
+                        >Make Complete</Button> : <></>}
+
+                    <Button
+                        size="small"
+                        danger
+                        icon={<DeleteOutlined />}
+                        onClick={() => handleDelete(index)}
+                    ></Button>
                 </Flex>,
             }))} />
 

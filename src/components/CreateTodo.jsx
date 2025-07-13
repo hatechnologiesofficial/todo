@@ -10,7 +10,11 @@ const CreateTodo = () => {
         console.log("value", value);
         const oldStr = localStorage.getItem("todo");
         const oldJson = JSON.parse(oldStr || "[]");
-        oldJson.push(value)
+        oldJson.push({
+            ...value,
+            status: "pending",
+            date: new Date().toISOString()
+        });
         localStorage.setItem("todo", JSON.stringify(oldJson));
         natigvate("/");
     }
