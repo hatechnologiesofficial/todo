@@ -5,6 +5,10 @@ const CreateTodo = () => {
 
     const handleSubmit = async (value) => {
         console.log("value", value);
+        const oldStr = localStorage.getItem("todo");
+        const oldJson = JSON.parse(oldStr || "[]");
+        oldJson.push(value)
+        localStorage.setItem("todo", JSON.stringify(oldJson));
 
     }
     return <Flex vertical>
