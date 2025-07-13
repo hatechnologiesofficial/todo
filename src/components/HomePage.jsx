@@ -1,9 +1,25 @@
-import { AppstoreAddOutlined, DeleteOutlined, FilterOutlined } from "@ant-design/icons"
-import { Button, Collapse, Flex, FloatButton, Input, Layout } from "antd"
+import { AppstoreAddOutlined, DeleteOutlined, DownOutlined, FilterOutlined, SmileOutlined } from "@ant-design/icons"
+import { Button, Collapse, Dropdown, Flex, FloatButton, Input, Layout, Space } from "antd"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 
+
 const HomePage = () => {
+
+    const items = [
+        {
+            key: 'all',
+            label: "All",
+        },
+        {
+            key: 'pending',
+            label: "Pending",
+        },
+        {
+            key: 'completed',
+            label: "Completed",
+        },
+    ];
 
     const [data, setData] = useState([])
     const [search, setSearch] = useState("")
@@ -28,6 +44,26 @@ const HomePage = () => {
         localStorage.setItem("todo", JSON.stringify(data))
         getTasks()
     }
+
+    const handleFilter = (key) => {
+        if (key == "all") {
+            getTasks()
+        } else if (key == "pending") {
+
+            const oldData = localStorage.getItem("todo")
+            const oldJson = JSON.parse(oldData || "[]")
+            const filteredData = oldJson.filter(res => res.status === "pending")
+            setData(filteredData)
+        }
+        else if (key == "completed") {
+
+            const oldData = localStorage.getItem("todo")
+            const oldJson = JSON.parse(oldData || "[]")
+            const filteredData = oldJson.filter(res => res.status === "completed")
+            setData(filteredData)
+        }
+
+    }
     useEffect(() => {
         getTasks()
     }, [])
@@ -46,8 +82,13 @@ const HomePage = () => {
                 enterButton="Search"
                 onSearch={setSearch}
             />
-            <Button
-                icon={<FilterOutlined />}></Button>
+            <Dropdown
+                menu={{ items, onClick: (e) => handleFilter(e.key) }}
+                on={(e) => console.log("open change", e)}
+            >
+                <Button
+                    icon={<FilterOutlined />}></Button>
+            </Dropdown>
         </Flex>
         <Collapse
             collapsible="header"
