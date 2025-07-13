@@ -1,6 +1,9 @@
 import { Button, Flex, Form, Input, Radio } from "antd"
+import { useNavigate } from "react-router-dom";
 
 const CreateTodo = () => {
+
+    const natigvate = useNavigate();
 
 
     const handleSubmit = async (value) => {
@@ -9,7 +12,7 @@ const CreateTodo = () => {
         const oldJson = JSON.parse(oldStr || "[]");
         oldJson.push(value)
         localStorage.setItem("todo", JSON.stringify(oldJson));
-
+        natigvate("/");
     }
     return <Flex vertical>
         <Form
@@ -27,10 +30,10 @@ const CreateTodo = () => {
                 <Input placeholder="Enter todo title" />
             </Form.Item>
 
-            <Form.Item 
-            label="Description"
-             name={"description"}
-             rules={[{ required: true, message: "Description is required" }]}>
+            <Form.Item
+                label="Description"
+                name={"description"}
+                rules={[{ required: true, message: "Description is required" }]}>
                 <Input.TextArea placeholder="Enter todo description" rows={4} />
             </Form.Item>
 

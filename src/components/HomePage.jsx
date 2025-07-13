@@ -1,7 +1,23 @@
 import { AppstoreAddOutlined, DeleteOutlined, FilterOutlined } from "@ant-design/icons"
 import { Button, Collapse, Flex, FloatButton, Input, Layout } from "antd"
+import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 
 const HomePage = () => {
+
+    const [data, setData] = useState([])
+
+    const getTasks = async () => {
+
+        const oldData = localStorage.getItem("todo")
+        const oldJson = JSON.parse(oldData || "[]")
+        console.log("oldJson", oldJson);
+
+        setData(oldJson)
+    }
+    useEffect(() => {
+        getTasks()
+    }, [])
 
     return <Flex style={{ padding: 10 }} vertical gap={"large"}>
         <Flex
@@ -20,30 +36,21 @@ const HomePage = () => {
                 icon={<FilterOutlined />}></Button>
         </Flex>
 
-        <Collapse 
-        collapsible="header"
-        items={[
-            {
-                key: '1',
-                label: 'This is panel header 1',
-                children: <div>{"dmmy"}</div>,
+        <Collapse
+            collapsible="header"
+            items={data.map((res,index) => ({
+                key: index,
+                label: res.title,
+                children: res.description,
                 extra: <Flex gap={"small"}>
                     <Button type="primary" size="small">Make Complete</Button>
                     <Button size="small" danger icon={<DeleteOutlined />}></Button>
                 </Flex>,
-            },
-            {
-                key: '2',
-                label: 'This is panel header 2',
-                children: <div>{"dmmy 2"}</div>,
-                extra: <Flex gap={"small"}>
-                    <Button type="primary" size="small">Make Complete</Button>
-                    <Button size="small" danger icon={<DeleteOutlined />}></Button>
-                </Flex>,
-            },
-        ]} />
+            }))} />
 
-        <FloatButton icon={<AppstoreAddOutlined />}/>
+        <Link to={"/create"}>
+            <FloatButton icon={<AppstoreAddOutlined />} />
+        </Link>
 
     </Flex>
 
