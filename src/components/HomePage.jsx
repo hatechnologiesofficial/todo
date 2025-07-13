@@ -6,6 +6,7 @@ import { Link } from "react-router-dom"
 const HomePage = () => {
 
     const [data, setData] = useState([])
+    const [search, setSearch] = useState("")
 
     const getTasks = async () => {
 
@@ -43,14 +44,14 @@ const HomePage = () => {
                 placeholder="input search text"
                 allowClear
                 enterButton="Search"
+                onSearch={setSearch}
             />
             <Button
                 icon={<FilterOutlined />}></Button>
         </Flex>
-
         <Collapse
             collapsible="header"
-            items={data.map((res, index) => ({
+            items={data.filter((res) => String(res.title).includes(search)).map((res, index) => ({
                 key: index,
                 label: res.title,
                 children: res.description,
