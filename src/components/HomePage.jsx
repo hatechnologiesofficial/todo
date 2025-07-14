@@ -1,5 +1,5 @@
-import { AppstoreAddOutlined, DeleteOutlined, DownOutlined, FilterOutlined, SmileOutlined } from "@ant-design/icons"
-import { Button, Collapse, Dropdown, Flex, FloatButton, Input, Layout, Space } from "antd"
+import { AppstoreAddOutlined, CheckOutlined, DeleteOutlined, DownOutlined, EditOutlined, FilterOutlined, SmileOutlined } from "@ant-design/icons"
+import { Button, Collapse, Dropdown, Flex, FloatButton, Input, Layout, Space, Tooltip } from "antd"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 
@@ -98,18 +98,32 @@ const HomePage = () => {
                 children: res.description,
                 extra: <Flex gap={"small"}>
                     {res.status == "pending" ?
-                        <Button
-                            type="primary"
-                            size="small"
-                            onClick={() => handleComplete(index)}
-                        >Make Complete</Button> : <></>}
+                        <Tooltip title="Mark as Completed">
+                            <Button
+                                type="primary"
+                                size="small"
+                                onClick={() => handleComplete(index)}
+                                icon={<CheckOutlined />}
+                            ></Button>
+                        </Tooltip> : <></>}
+                    {res.status == "pending" ?
+                        <Link to={`/edit/${index}`}>
+                            <Tooltip title="Edit">
+                                <Button
+                                    size="small"
+                                    icon={<EditOutlined />}
+                                ></Button>
+                            </Tooltip>
+                        </Link> : <></>}
 
-                    <Button
-                        size="small"
-                        danger
-                        icon={<DeleteOutlined />}
-                        onClick={() => handleDelete(index)}
-                    ></Button>
+                    <Tooltip title="Delete">
+                        <Button
+                            size="small"
+                            danger
+                            icon={<DeleteOutlined />}
+                            onClick={() => handleDelete(index)}
+                        ></Button>
+                    </Tooltip>
                 </Flex>,
             }))} />
 
