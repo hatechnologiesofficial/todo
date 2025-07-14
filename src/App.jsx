@@ -3,11 +3,13 @@ import './App.css';
 import CreateTodo from './components/CreateTodo';
 import HomePage from './components/HomePage';
 import EditTodo from './components/EditTodo';
+import Calculater from './calculater/Calculater';
+import CollBot from '@hammim-in/collbot-client';
 
 function App() {
   return (
     <div >
-      <BrowserRouter>
+      {/* <BrowserRouter>
 
         <Routes>
           <Route path='/' element={<HomePage />} />
@@ -15,7 +17,8 @@ function App() {
           <Route path='/edit/:indexId' element={<EditTodo/>}/>
 
         </Routes>
-      </BrowserRouter>
+      </BrowserRouter> */}
+      <Calculater/>
     </div>
   );
 }
